@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSY 347: Psychology of Learning</title>
+    <style>
+        :root {
+            /* Dark Mode Palette */
+            --primary: #0d1117;         
+            --secondary: #161b22;       
+            --accent: #58a6ff;          
+            --exam-red: #ff7b72;        
+            --exam-bg: #2e1a1b;         
+            --inferred-purple: #d2a8ff; 
+            --inferred-bg: #271d3b;     
+            --bg: #010409;              
+            --surface: #0d1117;         
+            --surface-alt: #161b22;     
+            --text: #c9d1d9;            
+            --border: #30363d;          
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+
+        /* Sidebar Navigation */
+        #sidebar {
+            width: 300px;
+            background-color: var(--primary);
+            border-right: 1px solid var(--border);
+            color: var(--text);
+            overflow-y: auto;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+
+        #sidebar h1 {
+            font-size: 1.2rem;
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .nav-chapter {
+            margin-bottom: 10px;
+        }
+
+        .nav-chapter-title {
+            padding: 12px 20px;
+            font-weight: bold;
+            background-color: var(--secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-chapter-title:hover {
+            background-color: var(--border);
+        }
+
+        .nav-topics {
+            list-style: none;
+        }
+
+        .nav-topics li {
+            padding: 10px 20px 10px 30px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-topics li:hover, .nav-topics li.active {
+            background-color: var(--secondary);
+            border-left: 3px solid var(--accent);
+            color: #ffffff;
+        }
+
+        /* Main Content Area */
+        #main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background-color: var(--bg);
+        }
+
+        .content-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+
+        h2.chapter-header {
+            color: #ffffff;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .topic-section {
+            background-color: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        h3.topic-header {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Content Blocks */
+        .content-block {
+            margin-bottom: 18px;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .content-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-list {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .content-list li {
+            margin-bottom: 10px;
+        }
+
+        /* Level 1: Explicit Exam Focus (Red) */
+        .exam-focus {
+            border-left: 4px solid var(--exam-red);
+            background-color: var(--exam-bg);
+            padding: 20px;
+            border-radius: 0 6px 6px 0;
+            position: relative;
+            margin: 25px 0;
+        }
+
+        .exam-badge {
+            display: inline-block;
+            background-color: var(--exam-red);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Level 2: Inferred Focus (Purple) */
+        .inferred-focus {
+            border-left: 4px solid var(--inferred-purple);
+            background-color: var(--inferred-bg);
+            padding: 20px;
+            border-radius: 0 6px 6px 0;
+            position: relative;
+            margin: 25px 0;
+        }
+
+        .inferred-badge {
+            display: inline-block;
+            background-color: var(--inferred-purple);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .definition-term {
+            font-weight: 600;
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar">
+        <h1>PSY 347: Learning</h1>
+        <div id="nav-container"></div>
+    </nav>
+
+    <main id="main-content">
+        <div class="content-container" id="content-container">
+            </div>
+    </main>
+
+    <script>
+        class Course {
+            constructor(title) {
+                this.title = title;
+                this.chapters = [];
+            }
+            addChapter(chapter) {
+                this.chapters.push(chapter);
+            }
+        }
+
+        class Chapter {
+            constructor(id, title) {
+                this.id = id;
+                this.title = title;
+                this.topics = [];
+            }
+            addTopic(topic) {
+                this.topics.push(topic);
+            }
+        }
+
+        class Topic {
+            constructor(id, title) {
+                this.id = id;
+                this.title = title;
+                this.blocks = [];
+            }
+            addBlock(block) {
+                this.blocks.push(block);
+            }
+        }
+
+        class ContentBlock {
+            // focusLevel: 0 = None, 1 = Explicit Red, 2 = Inferred Purple
+            constructor(focusLevel = 0) {
+                this.focusLevel = focusLevel;
+            }
+        }
+
+        class ParagraphBlock extends ContentBlock {
+            constructor(text, focusLevel = 0) {
+                super(focusLevel);
+                this.text = text;
+            }
+        }
+
+        class ListBlock extends ContentBlock {
+            constructor(items, focusLevel = 0) {
+                super(focusLevel);
+                this.items = items; 
+            }
+        }
+
+        class DefinitionBlock extends ContentBlock {
+            constructor(term, definition, focusLevel = 0) {
+                super(focusLevel);
+                this.term = term;
+                this.definition = definition;
+            }
+        }
+
+        const psy347 = new Course("Psychology of Learning");
+    </script>
+
+    <script src="chapter1.js"></script>
+    <script src="chapter2.js"></script>
+    <script src="chapter3.js"></script>
+
+    <script>
+        class AppRenderer {
+            constructor(course) {
+                this.course = course;
+                this.navContainer = document.getElementById('nav-container');
+                this.contentContainer = document.getElementById('content-container');
+            }
+
+            render() {
+                this.renderNav();
+                // Render the latest chapter by default
+                if(this.course.chapters.length > 0) {
+                    this.renderChapter(this.course.chapters[this.course.chapters.length - 1]);
+                }
+            }
+
+            renderNav() {
+                this.navContainer.innerHTML = ''; // Clear nav to prevent duplicates on re-render
+                this.course.chapters.forEach(chapter => {
+                    const chapDiv = document.createElement('div');
+                    chapDiv.className = 'nav-chapter';
+                    
+                    const chapTitle = document.createElement('div');
+                    chapTitle.className = 'nav-chapter-title';
+                    chapTitle.innerText = chapter.title;
+                    chapTitle.onclick = () => this.renderChapter(chapter);
+
+                    const topicList = document.createElement('ul');
+                    topicList.className = 'nav-topics';
+
+                    chapter.topics.forEach(topic => {
+                        const li = document.createElement('li');
+                        li.innerText = topic.title;
+                        li.onclick = (e) => {
+                            e.stopPropagation();
+                            this.renderChapter(chapter);
+                            setTimeout(() => {
+                                const targetElement = document.getElementById(topic.id);
+                                if(targetElement) {
+                                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }, 50);
+                        };
+                        topicList.appendChild(li);
+                    });
+
+                    chapDiv.appendChild(chapTitle);
+                    chapDiv.appendChild(topicList);
+                    this.navContainer.appendChild(chapDiv);
+                });
+            }
+
+            renderChapter(chapter) {
+                this.contentContainer.innerHTML = ''; 
+                
+                const header = document.createElement('h2');
+                header.className = 'chapter-header';
+                header.innerText = chapter.title;
+                this.contentContainer.appendChild(header);
+
+                chapter.topics.forEach(topic => {
+                    const topicWrapper = document.createElement('div');
+                    topicWrapper.id = topic.id;
+                    topicWrapper.className = 'topic-section';
+
+                    const topicHeader = document.createElement('h3');
+                    topicHeader.className = 'topic-header';
+                    topicHeader.innerText = topic.title;
+                    topicWrapper.appendChild(topicHeader);
+
+                    topic.blocks.forEach(block => {
+                        const blockEl = this.createBlockElement(block);
+                        topicWrapper.appendChild(blockEl);
+                    });
+
+                    this.contentContainer.appendChild(topicWrapper);
+                });
+            }
+
+            createBlockElement(block) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'content-block';
+
+                if (block.focusLevel === 1) {
+                    wrapper.classList.add('exam-focus');
+                    const badge = document.createElement('span');
+                    badge.className = 'exam-badge';
+                    badge.innerText = '🚨 Exam Focus';
+                    wrapper.appendChild(badge);
+                } else if (block.focusLevel === 2) {
+                    wrapper.classList.add('inferred-focus');
+                    const badge = document.createElement('span');
+                    badge.className = 'inferred-badge';
+                    badge.innerText = '💡 High Yield';
+                    wrapper.appendChild(badge);
+                }
+
+                if (block instanceof ParagraphBlock) {
+                    const p = document.createElement('p');
+                    p.innerHTML = block.text;
+                    wrapper.appendChild(p);
+                } 
+                else if (block instanceof ListBlock) {
+                    const ul = document.createElement('ul');
+                    ul.className = 'content-list';
+                    block.items.forEach(item => {
+                        const li = document.createElement('li');
+                        li.innerHTML = item;
+                        ul.appendChild(li);
+                    });
+                    wrapper.appendChild(ul);
+                }
+                else if (block instanceof DefinitionBlock) {
+                    const p = document.createElement('p');
+                    p.innerHTML = `<span class="definition-term">${block.term}:</span> ${block.definition}`;
+                    wrapper.appendChild(p);
+                }
+
+                return wrapper;
+            }
+        }
+
+        const app = new AppRenderer(psy347);
+        app.render();
+    </script>
+</body>
+</html>
