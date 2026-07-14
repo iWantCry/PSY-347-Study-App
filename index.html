@@ -6,19 +6,20 @@
     <title>PSY 347: Psychology of Learning</title>
     <style>
         :root {
-            /* Dark Mode Palette */
-            --primary: #0d1117;         
-            --secondary: #161b22;       
-            --accent: #58a6ff;          
-            --exam-red: #ff7b72;        
-            --exam-bg: #2e1a1b;         
-            --inferred-purple: #d2a8ff; 
-            --inferred-bg: #271d3b;     
-            --bg: #010409;              
-            --surface: #0d1117;         
-            --surface-alt: #161b22;     
-            --text: #c9d1d9;            
-            --border: #30363d;          
+            /* Highly Readable "Dracula-style" Dark Theme */
+            --primary: #1e1e2e;         
+            --secondary: #282a36;       
+            --accent: #8be9fd;          
+            --exam-red: #ff79c6;        
+            --exam-bg: #3a2235;         
+            --inferred-purple: #bd93f9; 
+            --inferred-bg: #2d2442;     
+            --bg: #181825;              
+            --surface: #1e1e2e;         
+            --surface-alt: #282a36;     
+            --text: #f8f8f2;            
+            --text-muted: #a6accd;      
+            --border: #44475a;          
         }
 
         * {
@@ -35,6 +36,7 @@
             background-color: var(--bg);
             color: var(--text);
             overflow: hidden;
+            font-size: 16px; 
         }
 
         /* Sidebar Navigation */
@@ -49,21 +51,21 @@
         }
 
         #sidebar h1 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             padding: 0 20px 20px 20px;
             border-bottom: 1px solid var(--border);
             margin-bottom: 10px;
             color: var(--accent);
+            letter-spacing: 0.5px;
         }
 
         .nav-chapter {
             margin-bottom: 5px;
         }
 
-        /* Nav Title Container with Flexbox for Chevron */
         .nav-chapter-title {
-            padding: 12px 20px;
-            font-weight: bold;
+            padding: 14px 20px;
+            font-weight: 600;
             background-color: var(--secondary);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
@@ -73,50 +75,49 @@
             justify-content: space-between;
             align-items: center;
             user-select: none;
+            color: var(--text);
         }
 
         .nav-chapter-title:hover {
             background-color: var(--border);
         }
 
-        /* Chevron Icon */
         .nav-chapter-title::after {
             content: '▼';
             font-size: 0.7rem;
             transition: transform 0.3s ease;
-            color: var(--text);
+            color: var(--text-muted);
         }
 
-        /* Rotate chevron when open */
         .nav-chapter-title.open::after {
             transform: rotate(180deg);
             color: var(--accent);
         }
 
-        /* Hide topics by default */
         .nav-topics {
             list-style: none;
             display: none; 
             padding: 5px 0;
         }
 
-        /* Show topics when open class is applied */
         .nav-topics.open {
             display: block;
         }
 
         .nav-topics li {
-            padding: 10px 20px 10px 30px;
-            font-size: 0.9rem;
+            padding: 12px 20px 12px 30px;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.2s;
-            border-left: 3px solid transparent;
+            border-left: 4px solid transparent;
+            color: var(--text-muted);
         }
 
         .nav-topics li:hover, .nav-topics li.active {
             background-color: var(--secondary);
-            border-left: 3px solid var(--accent);
-            color: #ffffff;
+            border-left: 4px solid var(--accent);
+            color: var(--text);
+            font-weight: 500;
         }
 
         /* Main Content Area */
@@ -135,11 +136,11 @@
             padding: 40px;
             border-radius: 12px;
             border: 1px solid var(--border);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
 
         h2.chapter-header {
-            color: #ffffff;
+            color: var(--text);
             font-size: 2.2rem;
             margin-bottom: 30px;
             border-bottom: 2px solid var(--border);
@@ -147,22 +148,20 @@
             margin-top: 40px;
         }
         
-        h2.chapter-header:first-child {
-            margin-top: 0;
-        }
+        h2.chapter-header:first-child { margin-top: 0; }
 
         .topic-section {
             background-color: var(--surface-alt);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         h3.topic-header {
             color: var(--accent);
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-top: 0;
             margin-bottom: 20px;
             padding-bottom: 12px;
@@ -172,41 +171,43 @@
         /* Content Blocks */
         .content-block {
             margin-bottom: 18px;
-            line-height: 1.7;
+            line-height: 1.6;
             font-size: 1.05rem;
+            color: var(--text);
         }
 
-        .content-block:last-child {
-            margin-bottom: 0;
-        }
+        .content-block:last-child { margin-bottom: 0; }
 
         .content-list {
             margin-left: 25px;
             margin-bottom: 15px;
         }
 
-        .content-list li {
-            margin-bottom: 10px;
+        .content-list li { margin-bottom: 10px; }
+
+        strong {
+            color: #ffffff; 
+            font-weight: 700;
         }
 
-        /* Level 1: Explicit Exam Focus (Red) */
+        /* Level 1: Exam Focus Styling */
         .exam-focus {
-            border-left: 4px solid var(--exam-red);
+            border-left: 5px solid var(--exam-red);
             background-color: var(--exam-bg);
             padding: 20px;
-            border-radius: 0 6px 6px 0;
-            position: relative;
+            border-radius: 0 8px 8px 0;
             margin: 25px 0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
         }
 
         .exam-badge {
             display: inline-block;
             background-color: var(--exam-red);
-            color: #ffffff;
+            color: #1e1e2e; 
             font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 12px;
             margin-bottom: 12px;
             letter-spacing: 0.5px;
@@ -214,108 +215,71 @@
 
         /* Level 2: Inferred Focus (Purple) */
         .inferred-focus {
-            border-left: 4px solid var(--inferred-purple);
+            border-left: 5px solid var(--inferred-purple);
             background-color: var(--inferred-bg);
             padding: 20px;
-            border-radius: 0 6px 6px 0;
-            position: relative;
+            border-radius: 0 8px 8px 0;
             margin: 25px 0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
         }
 
         .inferred-badge {
             display: inline-block;
             background-color: var(--inferred-purple);
-            color: #ffffff;
+            color: #1e1e2e; 
             font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 12px;
             margin-bottom: 12px;
             letter-spacing: 0.5px;
         }
 
         .definition-term {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--accent);
+            font-size: 1.1rem;
         }
     </style>
 </head>
 <body>
-
     <nav id="sidebar">
         <h1>PSY 347: Learning</h1>
         <div id="nav-container"></div>
     </nav>
-
     <main id="main-content">
-        <div class="content-container" id="content-container">
-            <!-- Content gets injected here -->
-        </div>
+        <div class="content-container" id="content-container"></div>
     </main>
 
     <!-- CORE OOP MODELS -->
     <script>
         class Course {
-            constructor(title) {
-                this.title = title;
-                this.chapters = [];
-            }
-            addChapter(chapter) {
-                this.chapters.push(chapter);
-            }
+            constructor(title) { this.title = title; this.chapters = []; }
+            addChapter(chapter) { this.chapters.push(chapter); }
         }
-
         class Chapter {
-            constructor(id, title) {
-                this.id = id;
-                this.title = title;
-                this.topics = [];
-            }
-            addTopic(topic) {
-                this.topics.push(topic);
-            }
+            constructor(id, title) { this.id = id; this.title = title; this.topics = []; }
+            addTopic(topic) { this.topics.push(topic); }
         }
-
         class Topic {
-            constructor(id, title) {
-                this.id = id;
-                this.title = title;
-                this.blocks = [];
-            }
-            addBlock(block) {
-                this.blocks.push(block);
-            }
+            constructor(id, title) { this.id = id; this.title = title; this.blocks = []; }
+            addBlock(block) { this.blocks.push(block); }
         }
-
         class ContentBlock {
-            constructor(focusLevel = 0) {
-                this.focusLevel = focusLevel;
-            }
+            constructor(focusLevel = 0) { this.focusLevel = focusLevel; }
         }
-
         class ParagraphBlock extends ContentBlock {
-            constructor(text, focusLevel = 0) {
-                super(focusLevel);
-                this.text = text;
-            }
+            constructor(text, focusLevel = 0) { super(focusLevel); this.text = text; }
         }
-
         class ListBlock extends ContentBlock {
-            constructor(items, focusLevel = 0) {
-                super(focusLevel);
-                this.items = items; 
-            }
+            constructor(items, focusLevel = 0) { super(focusLevel); this.items = items; }
         }
-
         class DefinitionBlock extends ContentBlock {
             constructor(term, definition, focusLevel = 0) {
-                super(focusLevel);
-                this.term = term;
-                this.definition = definition;
+                super(focusLevel); this.term = term; this.definition = definition;
             }
         }
-
         const psy347 = new Course("Psychology of Learning");
     </script>
 
@@ -333,31 +297,24 @@
                 this.navContainer = document.getElementById('nav-container');
                 this.contentContainer = document.getElementById('content-container');
             }
-
             render() {
                 this.renderNav();
-                this.renderAll(); // Changed to render the ENTIRE course at once
-                
-                // Initialize the first topic as active
+                this.renderAll();
                 if (this.course.chapters.length > 0 && this.course.chapters[0].topics.length > 0) {
                     this.updateNav(this.course.chapters[0].topics[0].id);
                 }
             }
-
             renderNav() {
                 this.navContainer.innerHTML = ''; 
                 this.course.chapters.forEach(chapter => {
                     const chapDiv = document.createElement('div');
                     chapDiv.className = 'nav-chapter';
-                    
                     const chapTitle = document.createElement('div');
                     chapTitle.className = 'nav-chapter-title';
                     chapTitle.innerText = chapter.title;
-
                     const topicList = document.createElement('ul');
                     topicList.className = 'nav-topics';
 
-                    // Toggling the accordion logic manually
                     chapTitle.onclick = () => {
                         chapTitle.classList.toggle('open');
                         topicList.classList.toggle('open');
@@ -366,7 +323,7 @@
                     chapter.topics.forEach(topic => {
                         const li = document.createElement('li');
                         li.innerText = topic.title;
-                        li.dataset.target = topic.id; // Links sidebar to scroll content
+                        li.dataset.target = topic.id;
                         
                         li.onclick = (e) => {
                             e.stopPropagation();
@@ -377,16 +334,13 @@
                         };
                         topicList.appendChild(li);
                     });
-
                     chapDiv.appendChild(chapTitle);
                     chapDiv.appendChild(topicList);
                     this.navContainer.appendChild(chapDiv);
                 });
             }
-
             renderAll() {
                 this.contentContainer.innerHTML = ''; 
-                
                 this.course.chapters.forEach(chapter => {
                     const header = document.createElement('h2');
                     header.className = 'chapter-header';
@@ -397,66 +351,44 @@
                         const topicWrapper = document.createElement('div');
                         topicWrapper.id = topic.id;
                         topicWrapper.className = 'topic-section';
-
                         const topicHeader = document.createElement('h3');
                         topicHeader.className = 'topic-header';
                         topicHeader.innerText = topic.title;
                         topicWrapper.appendChild(topicHeader);
 
                         topic.blocks.forEach(block => {
-                            const blockEl = this.createBlockElement(block);
-                            topicWrapper.appendChild(blockEl);
+                            topicWrapper.appendChild(this.createBlockElement(block));
                         });
-
                         this.contentContainer.appendChild(topicWrapper);
                     });
                 });
-
-                // Attach the Scroll Spy listener
                 this.setupScrollTracking();
             }
-
             setupScrollTracking() {
                 const mainContent = document.getElementById('main-content');
                 const sections = document.querySelectorAll('.topic-section');
-                
                 mainContent.addEventListener('scroll', () => {
-                    // Default to the very first section's ID
                     let currentActiveId = sections.length > 0 ? sections[0].id : null;
                     const containerTop = mainContent.getBoundingClientRect().top;
-                    
                     sections.forEach(section => {
                         const rect = section.getBoundingClientRect();
-                        // Triggers when a section crosses into the top ~150px of the viewing area
                         if (rect.top <= containerTop + 150) { 
                             currentActiveId = section.id;
                         }
                     });
-
-                    if (currentActiveId) {
-                        this.updateNav(currentActiveId);
-                    }
+                    if (currentActiveId) this.updateNav(currentActiveId);
                 });
             }
-
             updateNav(activeTopicId) {
                 const activeLi = document.querySelector(`li[data-target="${activeTopicId}"]`);
-                if (!activeLi) return;
+                if (!activeLi || activeLi.classList.contains('active')) return;
 
-                // Stop execution if the item is already active (prevents lag)
-                if (activeLi.classList.contains('active')) return;
-
-                // Strip 'active' class from all list items
                 document.querySelectorAll('.nav-topics li').forEach(li => li.classList.remove('active'));
-                
-                // Add 'active' class to current item
                 activeLi.classList.add('active');
 
-                // Identify the parent chapter of the active topic
                 const activeChapterList = activeLi.closest('.nav-topics');
                 const activeChapterTitle = activeChapterList.previousElementSibling;
 
-                // Collapse all unrelated chapters
                 document.querySelectorAll('.nav-topics').forEach(ul => {
                     if (ul !== activeChapterList) ul.classList.remove('open');
                 });
@@ -464,14 +396,10 @@
                     if (title !== activeChapterTitle) title.classList.remove('open');
                 });
 
-                // Expand the current chapter
                 activeChapterList.classList.add('open');
                 activeChapterTitle.classList.add('open');
-                
-                // Keep the active sidebar item in view
                 activeLi.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
-
             createBlockElement(block) {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'content-block';
@@ -483,6 +411,7 @@
                     badge.innerText = '🚨 Exam Focus';
                     wrapper.appendChild(badge);
                 } else if (block.focusLevel === 2) {
+                    // This block was accidentally deleted in the previous version!
                     wrapper.classList.add('inferred-focus');
                     const badge = document.createElement('span');
                     badge.className = 'inferred-badge';
@@ -507,14 +436,12 @@
                 }
                 else if (block instanceof DefinitionBlock) {
                     const p = document.createElement('p');
-                    p.innerHTML = `<span class="definition-term">${block.term}:</span> ${block.definition}`;
+                    p.innerHTML = `<span class="definition-term">${block.term}:</span><br> ${block.definition}`;
                     wrapper.appendChild(p);
                 }
-
                 return wrapper;
             }
         }
-
         const app = new AppRenderer(psy347);
         app.render();
     </script>
