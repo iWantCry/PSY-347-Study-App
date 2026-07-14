@@ -26,6 +26,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -33,11 +34,12 @@
             height: 100vh;
             background-color: var(--bg);
             color: var(--text);
+            overflow: hidden;
         }
 
         /* Sidebar Navigation */
         #sidebar {
-            width: 300px;
+            width: 320px;
             background-color: var(--primary);
             border-right: 1px solid var(--border);
             color: var(--text);
@@ -55,9 +57,10 @@
         }
 
         .nav-chapter {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
+        /* Nav Title Container with Flexbox for Chevron */
         .nav-chapter-title {
             padding: 12px 20px;
             font-weight: bold;
@@ -66,14 +69,40 @@
             border-bottom: 1px solid var(--border);
             cursor: pointer;
             transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
         }
 
         .nav-chapter-title:hover {
             background-color: var(--border);
         }
 
+        /* Chevron Icon */
+        .nav-chapter-title::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+            color: var(--text);
+        }
+
+        /* Rotate chevron when open */
+        .nav-chapter-title.open::after {
+            transform: rotate(180deg);
+            color: var(--accent);
+        }
+
+        /* Hide topics by default */
         .nav-topics {
             list-style: none;
+            display: none; 
+            padding: 5px 0;
+        }
+
+        /* Show topics when open class is applied */
+        .nav-topics.open {
+            display: block;
         }
 
         .nav-topics li {
@@ -96,6 +125,7 @@
             padding: 40px;
             overflow-y: auto;
             background-color: var(--bg);
+            scroll-behavior: smooth;
         }
 
         .content-container {
@@ -114,6 +144,11 @@
             margin-bottom: 30px;
             border-bottom: 2px solid var(--border);
             padding-bottom: 15px;
+            margin-top: 40px;
+        }
+        
+        h2.chapter-header:first-child {
+            margin-top: 0;
         }
 
         .topic-section {
@@ -215,9 +250,11 @@
 
     <main id="main-content">
         <div class="content-container" id="content-container">
-            </div>
+            <!-- Content gets injected here -->
+        </div>
     </main>
 
+    <!-- CORE OOP MODELS -->
     <script>
         class Course {
             constructor(title) {
@@ -252,7 +289,6 @@
         }
 
         class ContentBlock {
-            // focusLevel: 0 = None, 1 = Explicit Red, 2 = Inferred Purple
             constructor(focusLevel = 0) {
                 this.focusLevel = focusLevel;
             }
@@ -283,10 +319,13 @@
         const psy347 = new Course("Psychology of Learning");
     </script>
 
+    <!-- DATA IMPORTS -->
     <script src="chapter1.js"></script>
     <script src="chapter2.js"></script>
     <script src="chapter3.js"></script>
+    <script src="chapter4.js"></script>
 
+    <!-- RENDERER -->
     <script>
         class AppRenderer {
             constructor(course) {
@@ -297,14 +336,16 @@
 
             render() {
                 this.renderNav();
-                // Render the latest chapter by default
-                if(this.course.chapters.length > 0) {
-                    this.renderChapter(this.course.chapters[this.course.chapters.length - 1]);
+                this.renderAll(); // Changed to render the ENTIRE course at once
+                
+                // Initialize the first topic as active
+                if (this.course.chapters.length > 0 && this.course.chapters[0].topics.length > 0) {
+                    this.updateNav(this.course.chapters[0].topics[0].id);
                 }
             }
 
             renderNav() {
-                this.navContainer.innerHTML = ''; // Clear nav to prevent duplicates on re-render
+                this.navContainer.innerHTML = ''; 
                 this.course.chapters.forEach(chapter => {
                     const chapDiv = document.createElement('div');
                     chapDiv.className = 'nav-chapter';
@@ -312,23 +353,27 @@
                     const chapTitle = document.createElement('div');
                     chapTitle.className = 'nav-chapter-title';
                     chapTitle.innerText = chapter.title;
-                    chapTitle.onclick = () => this.renderChapter(chapter);
 
                     const topicList = document.createElement('ul');
                     topicList.className = 'nav-topics';
 
+                    // Toggling the accordion logic manually
+                    chapTitle.onclick = () => {
+                        chapTitle.classList.toggle('open');
+                        topicList.classList.toggle('open');
+                    };
+
                     chapter.topics.forEach(topic => {
                         const li = document.createElement('li');
                         li.innerText = topic.title;
+                        li.dataset.target = topic.id; // Links sidebar to scroll content
+                        
                         li.onclick = (e) => {
                             e.stopPropagation();
-                            this.renderChapter(chapter);
-                            setTimeout(() => {
-                                const targetElement = document.getElementById(topic.id);
-                                if(targetElement) {
-                                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                }
-                            }, 50);
+                            const targetElement = document.getElementById(topic.id);
+                            if(targetElement) {
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
                         };
                         topicList.appendChild(li);
                     });
@@ -339,31 +384,92 @@
                 });
             }
 
-            renderChapter(chapter) {
+            renderAll() {
                 this.contentContainer.innerHTML = ''; 
                 
-                const header = document.createElement('h2');
-                header.className = 'chapter-header';
-                header.innerText = chapter.title;
-                this.contentContainer.appendChild(header);
+                this.course.chapters.forEach(chapter => {
+                    const header = document.createElement('h2');
+                    header.className = 'chapter-header';
+                    header.innerText = chapter.title;
+                    this.contentContainer.appendChild(header);
 
-                chapter.topics.forEach(topic => {
-                    const topicWrapper = document.createElement('div');
-                    topicWrapper.id = topic.id;
-                    topicWrapper.className = 'topic-section';
+                    chapter.topics.forEach(topic => {
+                        const topicWrapper = document.createElement('div');
+                        topicWrapper.id = topic.id;
+                        topicWrapper.className = 'topic-section';
 
-                    const topicHeader = document.createElement('h3');
-                    topicHeader.className = 'topic-header';
-                    topicHeader.innerText = topic.title;
-                    topicWrapper.appendChild(topicHeader);
+                        const topicHeader = document.createElement('h3');
+                        topicHeader.className = 'topic-header';
+                        topicHeader.innerText = topic.title;
+                        topicWrapper.appendChild(topicHeader);
 
-                    topic.blocks.forEach(block => {
-                        const blockEl = this.createBlockElement(block);
-                        topicWrapper.appendChild(blockEl);
+                        topic.blocks.forEach(block => {
+                            const blockEl = this.createBlockElement(block);
+                            topicWrapper.appendChild(blockEl);
+                        });
+
+                        this.contentContainer.appendChild(topicWrapper);
+                    });
+                });
+
+                // Attach the Scroll Spy listener
+                this.setupScrollTracking();
+            }
+
+            setupScrollTracking() {
+                const mainContent = document.getElementById('main-content');
+                const sections = document.querySelectorAll('.topic-section');
+                
+                mainContent.addEventListener('scroll', () => {
+                    // Default to the very first section's ID
+                    let currentActiveId = sections.length > 0 ? sections[0].id : null;
+                    const containerTop = mainContent.getBoundingClientRect().top;
+                    
+                    sections.forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        // Triggers when a section crosses into the top ~150px of the viewing area
+                        if (rect.top <= containerTop + 150) { 
+                            currentActiveId = section.id;
+                        }
                     });
 
-                    this.contentContainer.appendChild(topicWrapper);
+                    if (currentActiveId) {
+                        this.updateNav(currentActiveId);
+                    }
                 });
+            }
+
+            updateNav(activeTopicId) {
+                const activeLi = document.querySelector(`li[data-target="${activeTopicId}"]`);
+                if (!activeLi) return;
+
+                // Stop execution if the item is already active (prevents lag)
+                if (activeLi.classList.contains('active')) return;
+
+                // Strip 'active' class from all list items
+                document.querySelectorAll('.nav-topics li').forEach(li => li.classList.remove('active'));
+                
+                // Add 'active' class to current item
+                activeLi.classList.add('active');
+
+                // Identify the parent chapter of the active topic
+                const activeChapterList = activeLi.closest('.nav-topics');
+                const activeChapterTitle = activeChapterList.previousElementSibling;
+
+                // Collapse all unrelated chapters
+                document.querySelectorAll('.nav-topics').forEach(ul => {
+                    if (ul !== activeChapterList) ul.classList.remove('open');
+                });
+                document.querySelectorAll('.nav-chapter-title').forEach(title => {
+                    if (title !== activeChapterTitle) title.classList.remove('open');
+                });
+
+                // Expand the current chapter
+                activeChapterList.classList.add('open');
+                activeChapterTitle.classList.add('open');
+                
+                // Keep the active sidebar item in view
+                activeLi.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
 
             createBlockElement(block) {
