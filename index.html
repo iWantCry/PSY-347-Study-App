@@ -59,9 +59,7 @@
             letter-spacing: 0.5px;
         }
 
-        .nav-chapter {
-            margin-bottom: 5px;
-        }
+        .nav-chapter { margin-bottom: 5px; }
 
         .nav-chapter-title {
             padding: 14px 20px;
@@ -78,9 +76,7 @@
             color: var(--text);
         }
 
-        .nav-chapter-title:hover {
-            background-color: var(--border);
-        }
+        .nav-chapter-title:hover { background-color: var(--border); }
 
         .nav-chapter-title::after {
             content: '▼';
@@ -100,9 +96,7 @@
             padding: 5px 0;
         }
 
-        .nav-topics.open {
-            display: block;
-        }
+        .nav-topics.open { display: block; }
 
         .nav-topics li {
             padding: 12px 20px 12px 30px;
@@ -190,6 +184,19 @@
             font-weight: 700;
         }
 
+        /* IMAGE STYLING UPDATE */
+        .content-image {
+            max-width: 75%;          /* Prevents image from stretching across whole screen */
+            max-height: 450px;       /* Caps the height so it doesn't take up the whole view */
+            object-fit: contain;     /* Maintains the aspect ratio perfectly */
+            height: auto;
+            border-radius: 8px;
+            margin: 25px auto;       /* The 'auto' left and right margins center the image */
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: block;          /* Required for margin: auto to work */
+        }
+
         /* Level 1: Exam Focus Styling */
         .exam-focus {
             border-left: 5px solid var(--exam-red);
@@ -252,7 +259,6 @@
         <div class="content-container" id="content-container"></div>
     </main>
 
-    <!-- CORE OOP MODELS -->
     <script>
         class Course {
             constructor(title) { this.title = title; this.chapters = []; }
@@ -280,16 +286,20 @@
                 super(focusLevel); this.term = term; this.definition = definition;
             }
         }
+        class ImageBlock extends ContentBlock {
+            constructor(src, altText, focusLevel = 0) {
+                super(focusLevel); this.src = src; this.altText = altText;
+            }
+        }
+
         const psy347 = new Course("Psychology of Learning");
     </script>
 
-    <!-- DATA IMPORTS -->
     <script src="chapter1.js"></script>
     <script src="chapter2.js"></script>
     <script src="chapter3.js"></script>
     <script src="chapter4.js"></script>
 
-    <!-- RENDERER -->
     <script>
         class AppRenderer {
             constructor(course) {
@@ -411,7 +421,6 @@
                     badge.innerText = '🚨 Exam Focus';
                     wrapper.appendChild(badge);
                 } else if (block.focusLevel === 2) {
-                    // This block was accidentally deleted in the previous version!
                     wrapper.classList.add('inferred-focus');
                     const badge = document.createElement('span');
                     badge.className = 'inferred-badge';
@@ -438,6 +447,13 @@
                     const p = document.createElement('p');
                     p.innerHTML = `<span class="definition-term">${block.term}:</span><br> ${block.definition}`;
                     wrapper.appendChild(p);
+                }
+                else if (block instanceof ImageBlock) {
+                    const img = document.createElement('img');
+                    img.src = block.src;
+                    img.alt = block.altText;
+                    img.className = 'content-image';
+                    wrapper.appendChild(img);
                 }
                 return wrapper;
             }
