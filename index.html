@@ -61,6 +61,7 @@
         }
 
         .nav-chapter { margin-bottom: 5px; }
+        .nav-chapter { margin-bottom: 5px; }
 
         .nav-chapter-title {
             padding: 14px 20px;
@@ -77,6 +78,7 @@
             color: var(--text);
         }
 
+        .nav-chapter-title:hover { background-color: var(--border); }
         .nav-chapter-title:hover { background-color: var(--border); }
 
         .nav-chapter-title::after {
@@ -97,6 +99,7 @@
             padding: 5px 0;
         }
 
+        .nav-topics.open { display: block; }
         .nav-topics.open { display: block; }
 
         .nav-topics li {
@@ -455,7 +458,6 @@
         const psy347 = new Course("Psychology of Learning");
     </script>
 
-    <!-- DATA IMPORTS -->
     <script src="chapter1.js"></script>
     <script src="chapter2.js"></script>
     <script src="chapter3.js"></script>
@@ -748,6 +750,13 @@
                     const p = document.createElement('p');
                     p.innerHTML = `<span class="definition-term">${block.term}:</span><br> ${block.definition}`;
                     wrapper.appendChild(p);
+                }
+                else if (block instanceof ImageBlock) {
+                    const img = document.createElement('img');
+                    img.src = block.src;
+                    img.alt = block.altText;
+                    img.className = 'content-image';
+                    wrapper.appendChild(img);
                 }
                 else if (block instanceof ImageBlock) {
                     const img = document.createElement('img');
