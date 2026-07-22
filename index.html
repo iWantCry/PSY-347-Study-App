@@ -49,6 +49,8 @@
             overflow-y: auto;
             padding: 20px 0;
             flex-shrink: 0;
+            z-index: 1000;
+            transition: left 0.3s ease;
         }
 
         #sidebar h1 {
@@ -60,7 +62,6 @@
             letter-spacing: 0.5px;
         }
 
-        .nav-chapter { margin-bottom: 5px; }
         .nav-chapter { margin-bottom: 5px; }
 
         .nav-chapter-title {
@@ -78,7 +79,6 @@
             color: var(--text);
         }
 
-        .nav-chapter-title:hover { background-color: var(--border); }
         .nav-chapter-title:hover { background-color: var(--border); }
 
         .nav-chapter-title::after {
@@ -99,7 +99,6 @@
             padding: 5px 0;
         }
 
-        .nav-topics.open { display: block; }
         .nav-topics.open { display: block; }
 
         .nav-topics li {
@@ -265,7 +264,7 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.85);
-            z-index: 1000;
+            z-index: 2000;
             justify-content: center;
             align-items: center;
         }
@@ -338,7 +337,6 @@
             color: var(--incorrect);
         }
 
-        /* NEW EXPLANATION BOX STYLES */
         #quiz-explanation {
             display: none;
             margin-bottom: 25px;
@@ -399,9 +397,93 @@
         .quiz-results { text-align: center; }
         .quiz-score { font-size: 3rem; color: var(--accent); margin: 20px 0; font-weight: bold; }
 
+        /* =========================================
+           MOBILE RESPONSIVENESS & HAMBURGER MENU
+           ========================================= */
+        #mobile-menu-btn {
+            display: none;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: var(--bg);
+            border: none;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1500;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 900;
+        }
+
+        @media (max-width: 768px) {
+            #mobile-menu-btn {
+                display: flex;
+            }
+            #sidebar {
+                position: fixed;
+                left: -320px; /* Hide off-screen by default */
+                height: 100vh;
+                box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+            }
+            #sidebar.open {
+                left: 0; /* Slide in */
+            }
+            #mobile-overlay.open {
+                display: block; /* Show dark background */
+            }
+            #main-content {
+                padding: 20px 15px; /* Shrink margins for mobile */
+            }
+            .content-container {
+                padding: 25px 20px;
+            }
+            h2.chapter-header {
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+            .chapter-header-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .quiz-btn {
+                width: 100%;
+            }
+            .content-image {
+                max-width: 100%; /* Ensure images fit small screens */
+                margin: 15px auto;
+            }
+            .topic-section {
+                padding: 20px;
+            }
+            .quiz-container {
+                padding: 25px 20px;
+            }
+            .quiz-question {
+                font-size: 1.1rem;
+            }
+        }
     </style>
 </head>
 <body>
+    
+    <!-- MOBILE OVERLAY -->
+    <div id="mobile-overlay"></div>
+    <!-- FLOATING MENU BUTTON -->
+    <button id="mobile-menu-btn">☰</button>
+
     <nav id="sidebar">
         <h1>PSY 347: Learning</h1>
         <div id="nav-container"></div>
@@ -420,7 +502,6 @@
             <div id="quiz-body">
                 <div class="quiz-question" id="quiz-question">Question text goes here?</div>
                 <div class="quiz-options" id="quiz-options"></div>
-                <!-- EXPLANATION BOX -->
                 <div id="quiz-explanation"></div>
             </div>
             <div id="quiz-results" class="quiz-results" style="display: none;">
@@ -458,6 +539,7 @@
         const psy347 = new Course("Psychology of Learning");
     </script>
 
+    <!-- DATA IMPORTS -->
     <script src="chapter1.js"></script>
     <script src="chapter2.js"></script>
     <script src="chapter3.js"></script>
@@ -465,9 +547,23 @@
     <script src="chapter5.js"></script>
     <script src="quiz_data.js"></script> 
 
-    <!-- RENDERER & QUIZ ENGINE -->
+    <!-- RENDERER, QUIZ ENGINE, & MOBILE LOGIC -->
     <script>
-        // Keeps track of asked questions in memory so they never repeat during the app session
+        // --- MOBILE MENU LOGIC ---
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobile-overlay');
+
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        mobileBtn.addEventListener('click', toggleMobileMenu);
+        overlay.addEventListener('click', toggleMobileMenu);
+
+
+        // --- QUIZ ENGINE LOGIC ---
         const sessionAskedQuestions = { ch1: new Set(), ch2: new Set(), ch3: new Set(), ch4: new Set(), ch5: new Set() };
         
         const QuizEngine = {
@@ -484,18 +580,15 @@
                 const allQs = window.quizBank[chapterId] || [];
                 const askedSet = sessionAskedQuestions[chapterId];
                 
-                // Filter out already asked questions
                 let availableQs = allQs.map((q, i) => ({ data: q, originalIndex: i }))
                                        .filter(q => !askedSet.has(q.originalIndex));
 
-                // If less than 10 questions remain, reset the pool for this session
                 if (availableQs.length < 10) {
                     alert("You've exhausted the question bank! Resetting questions for this chapter.");
                     askedSet.clear();
                     availableQs = allQs.map((q, i) => ({ data: q, originalIndex: i }));
                 }
 
-                // Shuffle and pick 10
                 this.currentQueue = availableQs.sort(() => 0.5 - Math.random()).slice(0, 10);
                 
                 document.getElementById('quiz-title').innerText = chapterTitle + " Quiz";
@@ -517,8 +610,6 @@
                 
                 const optsContainer = document.getElementById('quiz-options');
                 optsContainer.innerHTML = '';
-                
-                // Hide explanation box initially
                 document.getElementById('quiz-explanation').style.display = 'none';
 
                 for(let i = 1; i <= 4; i++) {
@@ -533,20 +624,16 @@
             },
 
             handleAnswer(clickedBtn, selectedIdx, correctIdx, originalIndex, qData) {
-                // Prevent duplicate answers
                 const btns = document.querySelectorAll('.quiz-option');
                 btns.forEach(b => b.disabled = true);
 
-                // Mark session tracking
                 sessionAskedQuestions[this.currentChapter].add(originalIndex);
 
-                // Setup Explanation Box
                 const expBox = document.getElementById('quiz-explanation');
                 expBox.style.display = 'block';
-                expBox.className = ''; // Reset classes
+                expBox.className = ''; 
                 
                 const correctText = qData[correctIdx + 1];
-                // Check if a custom explanation (7th item in array) exists
                 const customExplanation = qData[6] ? `<br><br><strong>Detailed Explanation:</strong> ${qData[6]}` : '';
 
                 if (selectedIdx === correctIdx) {
@@ -633,6 +720,12 @@
                             if(targetElement) {
                                 targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                             }
+                            
+                            // Close mobile menu after clicking a link
+                            if(window.innerWidth <= 768) {
+                                sidebar.classList.remove('open');
+                                overlay.classList.remove('open');
+                            }
                         };
                         topicList.appendChild(li);
                     });
@@ -711,7 +804,11 @@
 
                 activeChapterList.classList.add('open');
                 activeChapterTitle.classList.add('open');
-                activeLi.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // Only auto-scroll the nav if on desktop so we don't mess up mobile scrolling
+                if(window.innerWidth > 768) {
+                    activeLi.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
             }
             createBlockElement(block) {
                 const wrapper = document.createElement('div');
@@ -750,13 +847,6 @@
                     const p = document.createElement('p');
                     p.innerHTML = `<span class="definition-term">${block.term}:</span><br> ${block.definition}`;
                     wrapper.appendChild(p);
-                }
-                else if (block instanceof ImageBlock) {
-                    const img = document.createElement('img');
-                    img.src = block.src;
-                    img.alt = block.altText;
-                    img.className = 'content-image';
-                    wrapper.appendChild(img);
                 }
                 else if (block instanceof ImageBlock) {
                     const img = document.createElement('img');
