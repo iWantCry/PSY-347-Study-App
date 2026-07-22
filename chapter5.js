@@ -12,6 +12,9 @@ t5_1.addBlock(new ParagraphBlock(
     1
 ));
 
+// Added Thorndike Image
+t5_1.addBlock(new ImageBlock("images/Screenshot 2026-07-22 133330.png", "Thorndike's Puzzle Box and Learning Curve"));
+
 // EXAM FOCUS (Red)
 t5_1.addBlock(new DefinitionBlock(
     "Thorndike's Law of Effect", 
@@ -44,6 +47,12 @@ t5_2.addBlock(new DefinitionBlock(
     "Contrasts with Thorndike's <em>discrete-trials paradigm</em> (where the experimenter defines the beginning and end of each trial). Rats can earn food pellets by pressing a response lever or bar. <strong>'Free operant' procedure b/c rats freely control the rate at which they respond for food.</strong>", 
     1
 ));
+
+// Added Skinner Box Image
+t5_2.addBlock(new ImageBlock("images/Screenshot 2026-07-22 133346.png", "Diagram of a rat inside a Skinner Box"));
+
+// Added Cumulative Recorder Image
+t5_2.addBlock(new ImageBlock("images/Screenshot 2026-07-22 133505.png", "Cumulative Recorder graphs showing Acquisition and Extinction"));
 
 t5_2.addBlock(new DefinitionBlock("Operant Behavior", "A class of emitted responses that result in certain consequences, which in turn affect the future probability of those responses. It is defined as a 'class' because exact movements vary (e.g., force of press, which paw is used)."));
 
@@ -84,6 +93,9 @@ ch5.addTopic(t5_2);
 const t5_3 = new Topic("ch5-t3", "Reinforcers, Punishers, & Contingencies");
 t5_3.addBlock(new ParagraphBlock("Consequences will either increase (strengthen) or decrease (weaken) the frequency of behavior. Note the difference in terminology: a <em>Reinforcer</em> or <em>Punisher</em> is the specific item (food, frown), while <em>Reinforcement</em> or <em>Punishment</em> is the procedure."));
 t5_3.addBlock(new ParagraphBlock("Timing affects learning: immediate outcomes produce the fastest learning. A rat learns much faster with a 0-sec delay than a 4-sec or 10-sec delay."));
+
+// Added Effects of Delay Image
+t5_3.addBlock(new ImageBlock("images/Screenshot 2026-07-22 133527.png", "Graph comparing 0-sec, 4-sec, and 10-sec delays on learning"));
 
 // EXAM FOCUS (Red)
 t5_3.addBlock(new DefinitionBlock(
@@ -157,6 +169,9 @@ t5_4.addBlock(new ListBlock([
     "<span class='definition-term'>Post-reinforcement pause:</span> A brief pause in responding that follows the delivery of a reinforcer."
 ]));
 
+// Added Reinforcement Schedules Graph
+t5_4.addBlock(new ImageBlock("images/Screenshot 2026-07-22 133557.png", "Graphs comparing Fixed-Ratio, Variable-Ratio, Fixed-Interval, and Variable-Interval schedules"));
+
 // EXAM FOCUS (Red) 
 t5_4.addBlock(new ListBlock([
     "<strong>VR = Fastest, no pauses</strong>. (Variable-Ratio: reinforced after an <em>average</em> number of responses).",
@@ -181,12 +196,18 @@ t5_5.addBlock(new DefinitionBlock(
 
 t5_5.addBlock(new DefinitionBlock("Behavioral Economics & Bliss Point", "The study of how organisms allocate time and resources among possible options. It predicts consumers allocate resources to maximize subjective value. The <strong>Bliss Point</strong> is the particular allocation of resources that provides maximal subjective value to an individual."));
 
+// Added Bliss Point Graph
+t5_5.addBlock(new ImageBlock("images/Screenshot 2026-07-22 133629.png", "Behavioral Economics graphs showing the Bliss Point"));
+
 // EXAM FOCUS (Red)
 t5_5.addBlock(new DefinitionBlock(
     "Delay Discounting", 
     "<strong>Delay discounting: progressive reduction (or discounting) of subjective value of a reward the longer it is delayed</strong>. (e.g., Hard to study for an exam 5 weeks away vs tomorrow).", 
     1
 ));
+
+// Added Delay Discounting Graph
+t5_5.addBlock(new ImageBlock("images/Screenshot 2026-07-22 133641.png", "Graph showing how the value of a reward drops as the delay increases"));
 
 t5_5.addBlock(new ParagraphBlock("Self-control refers to an organism's willingness to forgo a small immediate reward in favor of a larger future reward. A good way to improve this is inducing a <em>precommitment</em> to make the choice hard to change later."));
 t5_5.addBlock(new DefinitionBlock("Reciprocity & Altruism", "Altruism (acting to benefit another at one's own expense) seems to violate the law of effect. Often occurs in kin relationships, but is also explained by <em>reciprocal altruism</em> (donating resources expecting the favor to be returned later)."));
@@ -216,6 +237,9 @@ t5_6.addBlock(new DefinitionBlock(
     "The extent to which responding persists after extinction is implemented. The most important factor is the <strong>schedule of reinforcement</strong>.<br><br><strong>Partial Reinforcement Effect:</strong> Behavior maintained on an intermittent (partial) schedule will extinguish much more slowly than behavior maintained on a continuous schedule. (A VR 20 schedule produces greater resistance than an FR 20 schedule)."
 ));
 
+// Added Resistance to Extinction Graph
+t5_6.addBlock(new ImageBlock("images/Screenshot 2026-07-22 133702.png", "Graphs comparing high resistance to extinction versus low resistance to extinction"));
+
 // EXAM FOCUS (Red) 
 t5_6.addBlock(new ParagraphBlock(
     "To counteract this effect: <strong>Spend several days turning partially-reinforced behavior into continuously reinforced one</strong>. When extinction is implemented, extinction should be more rapid.",
@@ -232,6 +256,10 @@ t5_6.addBlock(new ListBlock([
 ]));
 
 t5_6.addBlock(new DefinitionBlock("Spontaneous Recovery", "The reappearance of an extinguished response following a rest period. Skinner proposed this is a function of discriminative stimuli associated with the start of a session (e.g., the rat being weighed and placed in the box signals food)."));
+
+// Added Spontaneous Recovery Graph
+t5_6.addBlock(new ImageBlock("images/Screenshot 2026-07-22 133716.png", "Graph showing Spontaneous Recovery weakening over multiple sessions"));
+
 t5_6.addBlock(new DefinitionBlock("DRA, DRO, & DRI", "To facilitate extinction without harsh side effects, therapists use:<br>- <strong>DRA (Alt. Behaviors):</strong> Reward preferred alternative behaviors (e.g., for self-injurious autistic children).<br>- <strong>DRO (Other Behavior):</strong> Reinforcing <em>any</em> behavior other than the target.<br>- <strong>DRI (Incompatible Behavior):</strong> Reinforcing a behavior that specifically physically conflicts with the target."));
 ch5.addTopic(t5_6);
 
