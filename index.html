@@ -6,7 +6,6 @@
     <title>PSY 347: Psychology of Learning</title>
     <style>
         :root {
-            /* Highly Readable "Dracula-style" Dark Theme */
             --primary: #1e1e2e;         
             --secondary: #282a36;       
             --accent: #8be9fd;          
@@ -20,6 +19,8 @@
             --text: #f8f8f2;            
             --text-muted: #a6accd;      
             --border: #44475a;          
+            --correct: #50fa7b;
+            --incorrect: #ff5555;
         }
 
         * {
@@ -59,9 +60,7 @@
             letter-spacing: 0.5px;
         }
 
-        .nav-chapter {
-            margin-bottom: 5px;
-        }
+        .nav-chapter { margin-bottom: 5px; }
 
         .nav-chapter-title {
             padding: 14px 20px;
@@ -78,9 +77,7 @@
             color: var(--text);
         }
 
-        .nav-chapter-title:hover {
-            background-color: var(--border);
-        }
+        .nav-chapter-title:hover { background-color: var(--border); }
 
         .nav-chapter-title::after {
             content: '▼';
@@ -100,9 +97,7 @@
             padding: 5px 0;
         }
 
-        .nav-topics.open {
-            display: block;
-        }
+        .nav-topics.open { display: block; }
 
         .nav-topics li {
             padding: 12px 20px 12px 30px;
@@ -126,7 +121,6 @@
             padding: 40px;
             overflow-y: auto;
             background-color: var(--bg);
-            scroll-behavior: smooth;
         }
 
         .content-container {
@@ -139,16 +133,40 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
 
-        h2.chapter-header {
-            color: var(--text);
-            font-size: 2.2rem;
+        .chapter-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 30px;
             border-bottom: 2px solid var(--border);
             padding-bottom: 15px;
             margin-top: 40px;
         }
         
-        h2.chapter-header:first-child { margin-top: 0; }
+        .content-container > .chapter-header-container:first-child { margin-top: 0; }
+
+        h2.chapter-header {
+            color: var(--text);
+            font-size: 2.2rem;
+            margin: 0;
+        }
+
+        .quiz-btn {
+            background-color: var(--inferred-purple);
+            color: #1e1e2e;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .quiz-btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+        }
 
         .topic-section {
             background-color: var(--surface-alt);
@@ -168,7 +186,6 @@
             border-bottom: 1px solid var(--border);
         }
 
-        /* Content Blocks */
         .content-block {
             margin-bottom: 18px;
             line-height: 1.6;
@@ -177,27 +194,28 @@
         }
 
         .content-block:last-child { margin-bottom: 0; }
-
-        .content-list {
-            margin-left: 25px;
-            margin-bottom: 15px;
-        }
-
+        .content-list { margin-left: 25px; margin-bottom: 15px; }
         .content-list li { margin-bottom: 10px; }
+        strong { color: #ffffff; font-weight: 700; }
 
-        strong {
-            color: #ffffff; 
-            font-weight: 700;
+        .content-image {
+            max-width: 75%;
+            max-height: 450px;
+            object-fit: contain;
+            height: auto;
+            border-radius: 8px;
+            margin: 25px auto;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: block;
         }
 
-        /* Level 1: Exam Focus Styling */
         .exam-focus {
             border-left: 5px solid var(--exam-red);
             background-color: var(--exam-bg);
             padding: 20px;
             border-radius: 0 8px 8px 0;
             margin: 25px 0;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
         }
 
         .exam-badge {
@@ -210,17 +228,14 @@
             padding: 5px 12px;
             border-radius: 12px;
             margin-bottom: 12px;
-            letter-spacing: 0.5px;
         }
 
-        /* Level 2: Inferred Focus (Purple) */
         .inferred-focus {
             border-left: 5px solid var(--inferred-purple);
             background-color: var(--inferred-bg);
             padding: 20px;
             border-radius: 0 8px 8px 0;
             margin: 25px 0;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
         }
 
         .inferred-badge {
@@ -233,7 +248,6 @@
             padding: 5px 12px;
             border-radius: 12px;
             margin-bottom: 12px;
-            letter-spacing: 0.5px;
         }
 
         .definition-term {
@@ -241,6 +255,147 @@
             color: var(--accent);
             font-size: 1.1rem;
         }
+
+        /* QUIZ MODAL STYLES */
+        #quiz-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quiz-container {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 650px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .quiz-header h2 { color: var(--accent); margin: 0; font-size: 1.5rem; }
+        .quiz-progress { color: var(--text-muted); font-weight: bold; }
+
+        .quiz-question {
+            font-size: 1.25rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            color: #fff;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            background-color: var(--surface-alt);
+            border: 2px solid var(--border);
+            color: var(--text);
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover:not(:disabled) {
+            background-color: var(--border);
+            border-color: var(--text-muted);
+        }
+
+        .quiz-option.correct {
+            background-color: rgba(80, 250, 123, 0.1);
+            border-color: var(--correct);
+            color: var(--correct);
+        }
+
+        .quiz-option.incorrect {
+            background-color: rgba(255, 85, 85, 0.1);
+            border-color: var(--incorrect);
+            color: var(--incorrect);
+        }
+
+        /* NEW EXPLANATION BOX STYLES */
+        #quiz-explanation {
+            display: none;
+            margin-bottom: 25px;
+            padding: 18px 20px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #quiz-explanation.correct-exp {
+            background-color: rgba(80, 250, 123, 0.1);
+            border: 1px solid var(--correct);
+            color: #e6fced;
+        }
+
+        #quiz-explanation.incorrect-exp {
+            background-color: rgba(255, 85, 85, 0.1);
+            border: 1px solid var(--incorrect);
+            color: #ffe6e6;
+        }
+
+        .quiz-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .quiz-footer button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #quiz-next-btn {
+            background-color: var(--accent);
+            color: #1e1e2e;
+            display: none;
+        }
+        #quiz-next-btn:hover { background-color: #9cedff; }
+
+        #quiz-close-btn {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+        #quiz-close-btn:hover { background-color: var(--surface-alt); color: #fff; }
+
+        .quiz-results { text-align: center; }
+        .quiz-score { font-size: 3rem; color: var(--accent); margin: 20px 0; font-weight: bold; }
+
     </style>
 </head>
 <body>
@@ -251,6 +406,31 @@
     <main id="main-content">
         <div class="content-container" id="content-container"></div>
     </main>
+
+    <!-- QUIZ MODAL -->
+    <div id="quiz-modal">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h2 id="quiz-title">Chapter Quiz</h2>
+                <div class="quiz-progress" id="quiz-progress">1 / 10</div>
+            </div>
+            <div id="quiz-body">
+                <div class="quiz-question" id="quiz-question">Question text goes here?</div>
+                <div class="quiz-options" id="quiz-options"></div>
+                <!-- EXPLANATION BOX -->
+                <div id="quiz-explanation"></div>
+            </div>
+            <div id="quiz-results" class="quiz-results" style="display: none;">
+                <h2>Quiz Complete!</h2>
+                <div class="quiz-score" id="quiz-score">8/10</div>
+                <p id="quiz-feedback" style="color: var(--text-muted); margin-bottom: 20px;"></p>
+            </div>
+            <div class="quiz-footer">
+                <button id="quiz-close-btn">Close</button>
+                <button id="quiz-next-btn">Next Question</button>
+            </div>
+        </div>
+    </div>
 
     <!-- CORE OOP MODELS -->
     <script>
@@ -266,20 +446,12 @@
             constructor(id, title) { this.id = id; this.title = title; this.blocks = []; }
             addBlock(block) { this.blocks.push(block); }
         }
-        class ContentBlock {
-            constructor(focusLevel = 0) { this.focusLevel = focusLevel; }
-        }
-        class ParagraphBlock extends ContentBlock {
-            constructor(text, focusLevel = 0) { super(focusLevel); this.text = text; }
-        }
-        class ListBlock extends ContentBlock {
-            constructor(items, focusLevel = 0) { super(focusLevel); this.items = items; }
-        }
-        class DefinitionBlock extends ContentBlock {
-            constructor(term, definition, focusLevel = 0) {
-                super(focusLevel); this.term = term; this.definition = definition;
-            }
-        }
+        class ContentBlock { constructor(focusLevel = 0) { this.focusLevel = focusLevel; } }
+        class ParagraphBlock extends ContentBlock { constructor(text, focusLevel = 0) { super(focusLevel); this.text = text; } }
+        class ListBlock extends ContentBlock { constructor(items, focusLevel = 0) { super(focusLevel); this.items = items; } }
+        class DefinitionBlock extends ContentBlock { constructor(term, definition, focusLevel = 0) { super(focusLevel); this.term = term; this.definition = definition; } }
+        class ImageBlock extends ContentBlock { constructor(src, altText, focusLevel = 0) { super(focusLevel); this.src = src; this.altText = altText; } }
+
         const psy347 = new Course("Psychology of Learning");
     </script>
 
@@ -288,9 +460,137 @@
     <script src="chapter2.js"></script>
     <script src="chapter3.js"></script>
     <script src="chapter4.js"></script>
+    <script src="chapter5.js"></script>
+    <script src="quiz_data.js"></script> 
 
-    <!-- RENDERER -->
+    <!-- RENDERER & QUIZ ENGINE -->
     <script>
+        // Keeps track of asked questions in memory so they never repeat during the app session
+        const sessionAskedQuestions = { ch1: new Set(), ch2: new Set(), ch3: new Set(), ch4: new Set(), ch5: new Set() };
+        
+        const QuizEngine = {
+            currentChapter: null,
+            currentQueue: [],
+            currentIndex: 0,
+            score: 0,
+
+            startQuiz(chapterId, chapterTitle) {
+                this.currentChapter = chapterId;
+                this.score = 0;
+                this.currentIndex = 0;
+
+                const allQs = window.quizBank[chapterId] || [];
+                const askedSet = sessionAskedQuestions[chapterId];
+                
+                // Filter out already asked questions
+                let availableQs = allQs.map((q, i) => ({ data: q, originalIndex: i }))
+                                       .filter(q => !askedSet.has(q.originalIndex));
+
+                // If less than 10 questions remain, reset the pool for this session
+                if (availableQs.length < 10) {
+                    alert("You've exhausted the question bank! Resetting questions for this chapter.");
+                    askedSet.clear();
+                    availableQs = allQs.map((q, i) => ({ data: q, originalIndex: i }));
+                }
+
+                // Shuffle and pick 10
+                this.currentQueue = availableQs.sort(() => 0.5 - Math.random()).slice(0, 10);
+                
+                document.getElementById('quiz-title').innerText = chapterTitle + " Quiz";
+                document.getElementById('quiz-body').style.display = 'block';
+                document.getElementById('quiz-results').style.display = 'none';
+                document.getElementById('quiz-explanation').style.display = 'none';
+                document.getElementById('quiz-next-btn').innerText = "Next Question";
+                document.getElementById('quiz-modal').style.display = 'flex';
+                
+                this.loadQuestion();
+            },
+
+            loadQuestion() {
+                const qObj = this.currentQueue[this.currentIndex];
+                const qData = qObj.data;
+                
+                document.getElementById('quiz-progress').innerText = `${this.currentIndex + 1} / 10`;
+                document.getElementById('quiz-question').innerText = qData[0];
+                
+                const optsContainer = document.getElementById('quiz-options');
+                optsContainer.innerHTML = '';
+                
+                // Hide explanation box initially
+                document.getElementById('quiz-explanation').style.display = 'none';
+
+                for(let i = 1; i <= 4; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-option';
+                    btn.innerText = qData[i];
+                    btn.onclick = () => this.handleAnswer(btn, i-1, qData[5], qObj.originalIndex, qData);
+                    optsContainer.appendChild(btn);
+                }
+                
+                document.getElementById('quiz-next-btn').style.display = 'none';
+            },
+
+            handleAnswer(clickedBtn, selectedIdx, correctIdx, originalIndex, qData) {
+                // Prevent duplicate answers
+                const btns = document.querySelectorAll('.quiz-option');
+                btns.forEach(b => b.disabled = true);
+
+                // Mark session tracking
+                sessionAskedQuestions[this.currentChapter].add(originalIndex);
+
+                // Setup Explanation Box
+                const expBox = document.getElementById('quiz-explanation');
+                expBox.style.display = 'block';
+                expBox.className = ''; // Reset classes
+                
+                const correctText = qData[correctIdx + 1];
+                // Check if a custom explanation (7th item in array) exists
+                const customExplanation = qData[6] ? `<br><br><strong>Detailed Explanation:</strong> ${qData[6]}` : '';
+
+                if (selectedIdx === correctIdx) {
+                    clickedBtn.classList.add('correct');
+                    this.score++;
+                    expBox.classList.add('correct-exp');
+                    expBox.innerHTML = `<strong>✅ Correct!</strong> The answer is indeed <strong>${correctText}</strong>.${customExplanation}`;
+                } else {
+                    clickedBtn.classList.add('incorrect');
+                    btns[correctIdx].classList.add('correct');
+                    expBox.classList.add('incorrect-exp');
+                    expBox.innerHTML = `<strong>❌ Incorrect.</strong> The correct answer is <strong>${correctText}</strong>.${customExplanation}`;
+                }
+
+                const nextBtn = document.getElementById('quiz-next-btn');
+                nextBtn.style.display = 'block';
+                nextBtn.innerText = this.currentIndex === 9 ? "Finish Quiz" : "Next Question";
+                
+                nextBtn.onclick = () => {
+                    this.currentIndex++;
+                    if (this.currentIndex < 10) {
+                        this.loadQuestion();
+                    } else {
+                        this.showResults();
+                    }
+                };
+            },
+
+            showResults() {
+                document.getElementById('quiz-body').style.display = 'none';
+                document.getElementById('quiz-next-btn').style.display = 'none';
+                document.getElementById('quiz-results').style.display = 'block';
+                document.getElementById('quiz-score').innerText = `${this.score} / 10`;
+                
+                const feedback = document.getElementById('quiz-feedback');
+                if(this.score >= 9) feedback.innerText = "Excellent retention! Ready for the exam.";
+                else if(this.score >= 7) feedback.innerText = "Solid work, but keep reviewing.";
+                else feedback.innerText = "You might want to reread this chapter's Exam Focus highlights.";
+            }
+        };
+
+        document.getElementById('quiz-close-btn').onclick = () => {
+            document.getElementById('quiz-modal').style.display = 'none';
+        };
+
+        // --- APP RENDERER ---
         class AppRenderer {
             constructor(course) {
                 this.course = course;
@@ -342,10 +642,21 @@
             renderAll() {
                 this.contentContainer.innerHTML = ''; 
                 this.course.chapters.forEach(chapter => {
+                    const headerContainer = document.createElement('div');
+                    headerContainer.className = 'chapter-header-container';
+                    
                     const header = document.createElement('h2');
                     header.className = 'chapter-header';
                     header.innerText = chapter.title;
-                    this.contentContainer.appendChild(header);
+                    headerContainer.appendChild(header);
+
+                    const quizBtn = document.createElement('button');
+                    quizBtn.className = 'quiz-btn';
+                    quizBtn.innerText = '🧠 Take Quiz';
+                    quizBtn.onclick = () => QuizEngine.startQuiz(chapter.id, chapter.title);
+                    headerContainer.appendChild(quizBtn);
+
+                    this.contentContainer.appendChild(headerContainer);
 
                     chapter.topics.forEach(topic => {
                         const topicWrapper = document.createElement('div');
@@ -411,7 +722,6 @@
                     badge.innerText = '🚨 Exam Focus';
                     wrapper.appendChild(badge);
                 } else if (block.focusLevel === 2) {
-                    // This block was accidentally deleted in the previous version!
                     wrapper.classList.add('inferred-focus');
                     const badge = document.createElement('span');
                     badge.className = 'inferred-badge';
@@ -438,6 +748,13 @@
                     const p = document.createElement('p');
                     p.innerHTML = `<span class="definition-term">${block.term}:</span><br> ${block.definition}`;
                     wrapper.appendChild(p);
+                }
+                else if (block instanceof ImageBlock) {
+                    const img = document.createElement('img');
+                    img.src = block.src;
+                    img.alt = block.altText;
+                    img.className = 'content-image';
+                    wrapper.appendChild(img);
                 }
                 return wrapper;
             }
