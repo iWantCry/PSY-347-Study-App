@@ -51,15 +51,55 @@
             flex-shrink: 0;
             z-index: 1000;
             transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         #sidebar h1 {
             font-size: 1.3rem;
-            padding: 0 20px 20px 20px;
-            border-bottom: 1px solid var(--border);
+            padding: 0 20px 15px 20px;
             margin-bottom: 10px;
             color: var(--accent);
             letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .exam-toggle {
+            display: flex;
+            padding: 0 20px 20px 20px;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 15px;
+        }
+
+        .exam-tab {
+            flex: 1;
+            background-color: var(--surface-alt);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 8px 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .exam-tab.active {
+            background-color: var(--inferred-purple);
+            color: #1e1e2e;
+            border-color: var(--inferred-purple);
+        }
+
+        .exam-tab:hover:not(.active) {
+            background-color: var(--border);
+            color: var(--text);
+        }
+
+        #nav-container {
+            flex-grow: 1;
+            overflow-y: auto;
         }
 
         .nav-chapter { margin-bottom: 5px; }
@@ -133,6 +173,7 @@
             border-radius: 12px;
             border: 1px solid var(--border);
             box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            min-height: 500px; 
         }
 
         .chapter-header-container {
@@ -256,6 +297,22 @@
             font-weight: 700;
             color: var(--accent);
             font-size: 1.1rem;
+        }
+
+        /* Empty State Styles */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+        .empty-state p {
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
 
         /* QUIZ MODAL STYLES */
@@ -428,52 +485,24 @@
         }
 
         @media (max-width: 768px) {
-            #mobile-menu-btn {
-                display: flex;
-            }
+            #mobile-menu-btn { display: flex; }
             #sidebar {
                 position: fixed;
-                left: -320px; /* Hide off-screen by default */
+                left: -320px; 
                 height: 100vh;
                 box-shadow: 4px 0 15px rgba(0,0,0,0.5);
             }
-            #sidebar.open {
-                left: 0; /* Slide in */
-            }
-            #mobile-overlay.open {
-                display: block; /* Show dark background */
-            }
-            #main-content {
-                padding: 20px 15px; /* Shrink margins for mobile */
-            }
-            .content-container {
-                padding: 25px 20px;
-            }
-            h2.chapter-header {
-                font-size: 1.8rem;
-                margin-bottom: 10px;
-            }
-            .chapter-header-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            .quiz-btn {
-                width: 100%;
-            }
-            .content-image {
-                max-width: 100%; /* Ensure images fit small screens */
-                margin: 15px auto;
-            }
-            .topic-section {
-                padding: 20px;
-            }
-            .quiz-container {
-                padding: 25px 20px;
-            }
-            .quiz-question {
-                font-size: 1.1rem;
-            }
+            #sidebar.open { left: 0; }
+            #mobile-overlay.open { display: block; }
+            #main-content { padding: 20px 15px; }
+            .content-container { padding: 25px 20px; }
+            h2.chapter-header { font-size: 1.8rem; margin-bottom: 10px; }
+            .chapter-header-container { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .quiz-btn { width: 100%; }
+            .content-image { max-width: 100%; margin: 15px auto; }
+            .topic-section { padding: 20px; }
+            .quiz-container { padding: 25px 20px; }
+            .quiz-question { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -486,6 +515,13 @@
 
     <nav id="sidebar">
         <h1>PSY 347: Learning</h1>
+        
+        <!-- EXAM TOGGLE -->
+        <div class="exam-toggle">
+            <button id="btn-exam1" class="exam-tab">Exam 1 (Ch 1-5)</button>
+            <button id="btn-exam2" class="exam-tab active">Exam 2 (Current)</button>
+        </div>
+
         <div id="nav-container"></div>
     </nav>
     <main id="main-content">
@@ -545,9 +581,11 @@
     <script src="chapter3.js"></script>
     <script src="chapter4.js"></script>
     <script src="chapter5.js"></script>
+    <script src="chapter6.js"></script> 
+
     <script src="quiz_data.js"></script> 
 
-    <!-- RENDERER, QUIZ ENGINE, & MOBILE LOGIC -->
+    <!-- RENDERER, QUIZ ENGINE, & EXAM FILTER LOGIC -->
     <script>
         // --- MOBILE MENU LOGIC ---
         const mobileBtn = document.getElementById('mobile-menu-btn');
@@ -563,8 +601,29 @@
         overlay.addEventListener('click', toggleMobileMenu);
 
 
+        // --- EXAM TOGGLE LOGIC ---
+        const exam1Ids = ['ch1', 'ch2', 'ch3', 'ch4', 'ch5'];
+        let activeExam = 'exam2'; // Defaults to Exam 2 
+
+        document.getElementById('btn-exam1').onclick = () => {
+            activeExam = 'exam1';
+            document.getElementById('btn-exam1').classList.add('active');
+            document.getElementById('btn-exam2').classList.remove('active');
+            app.render();
+            document.getElementById('main-content').scrollTop = 0;
+        };
+
+        document.getElementById('btn-exam2').onclick = () => {
+            activeExam = 'exam2';
+            document.getElementById('btn-exam2').classList.add('active');
+            document.getElementById('btn-exam1').classList.remove('active');
+            app.render();
+            document.getElementById('main-content').scrollTop = 0;
+        };
+
+
         // --- QUIZ ENGINE LOGIC ---
-        const sessionAskedQuestions = { ch1: new Set(), ch2: new Set(), ch3: new Set(), ch4: new Set(), ch5: new Set() };
+        const sessionAskedQuestions = { ch1: new Set(), ch2: new Set(), ch3: new Set(), ch4: new Set(), ch5: new Set(), ch6: new Set() };
         
         const QuizEngine = {
             currentChapter: null,
@@ -578,15 +637,22 @@
                 this.currentIndex = 0;
 
                 const allQs = window.quizBank[chapterId] || [];
+                
+                if(!sessionAskedQuestions[chapterId]) sessionAskedQuestions[chapterId] = new Set();
                 const askedSet = sessionAskedQuestions[chapterId];
                 
                 let availableQs = allQs.map((q, i) => ({ data: q, originalIndex: i }))
                                        .filter(q => !askedSet.has(q.originalIndex));
 
-                if (availableQs.length < 10) {
+                if (availableQs.length < 10 && allQs.length > 0) {
                     alert("You've exhausted the question bank! Resetting questions for this chapter.");
                     askedSet.clear();
                     availableQs = allQs.map((q, i) => ({ data: q, originalIndex: i }));
+                }
+
+                if(availableQs.length === 0) {
+                    alert("Quiz questions for this chapter haven't been added to quiz_data.js yet!");
+                    return;
                 }
 
                 this.currentQueue = availableQs.sort(() => 0.5 - Math.random()).slice(0, 10);
@@ -685,17 +751,30 @@
                 this.course = course;
                 this.navContainer = document.getElementById('nav-container');
                 this.contentContainer = document.getElementById('content-container');
+                this.handleScroll = this.handleScroll.bind(this);
             }
+            
+            getFilteredChapters() {
+                return this.course.chapters.filter(c => {
+                    if (activeExam === 'exam1') return exam1Ids.includes(c.id);
+                    return !exam1Ids.includes(c.id);
+                });
+            }
+
             render() {
                 this.renderNav();
                 this.renderAll();
-                if (this.course.chapters.length > 0 && this.course.chapters[0].topics.length > 0) {
-                    this.updateNav(this.course.chapters[0].topics[0].id);
+                const filtered = this.getFilteredChapters();
+                if (filtered.length > 0 && filtered[0].topics.length > 0) {
+                    this.updateNav(filtered[0].topics[0].id);
                 }
             }
+
             renderNav() {
                 this.navContainer.innerHTML = ''; 
-                this.course.chapters.forEach(chapter => {
+                const filteredChapters = this.getFilteredChapters();
+
+                filteredChapters.forEach(chapter => {
                     const chapDiv = document.createElement('div');
                     chapDiv.className = 'nav-chapter';
                     const chapTitle = document.createElement('div');
@@ -707,6 +786,18 @@
                     chapTitle.onclick = () => {
                         chapTitle.classList.toggle('open');
                         topicList.classList.toggle('open');
+                        
+                        // Scroll to chapter header
+                        const targetElement = document.getElementById(chapter.id);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                        
+                        // Close sidebar on mobile
+                        if(window.innerWidth <= 768) {
+                            sidebar.classList.remove('open');
+                            overlay.classList.remove('open');
+                        }
                     };
 
                     chapter.topics.forEach(topic => {
@@ -721,7 +812,6 @@
                                 targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                             }
                             
-                            // Close mobile menu after clicking a link
                             if(window.innerWidth <= 768) {
                                 sidebar.classList.remove('open');
                                 overlay.classList.remove('open');
@@ -734,11 +824,26 @@
                     this.navContainer.appendChild(chapDiv);
                 });
             }
+
             renderAll() {
                 this.contentContainer.innerHTML = ''; 
-                this.course.chapters.forEach(chapter => {
+                const filteredChapters = this.getFilteredChapters();
+
+                if (filteredChapters.length === 0) {
+                    this.contentContainer.innerHTML = `
+                        <div class="empty-state">
+                            <h2>No Chapters Yet!</h2>
+                            <p>You are viewing the Exam 2 section, but no chapters have been added.</p>
+                            <p style="margin-top: 10px;">Create <strong>chapter6.js</strong> and link it in the HTML to begin studying.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                filteredChapters.forEach(chapter => {
                     const headerContainer = document.createElement('div');
                     headerContainer.className = 'chapter-header-container';
+                    headerContainer.id = chapter.id; // Added ID for scrolling
                     
                     const header = document.createElement('h2');
                     header.className = 'chapter-header';
@@ -768,23 +873,31 @@
                         this.contentContainer.appendChild(topicWrapper);
                     });
                 });
+                
                 this.setupScrollTracking();
             }
+
             setupScrollTracking() {
                 const mainContent = document.getElementById('main-content');
-                const sections = document.querySelectorAll('.topic-section');
-                mainContent.addEventListener('scroll', () => {
-                    let currentActiveId = sections.length > 0 ? sections[0].id : null;
-                    const containerTop = mainContent.getBoundingClientRect().top;
-                    sections.forEach(section => {
-                        const rect = section.getBoundingClientRect();
-                        if (rect.top <= containerTop + 150) { 
-                            currentActiveId = section.id;
-                        }
-                    });
-                    if (currentActiveId) this.updateNav(currentActiveId);
-                });
+                // Use onscroll directly so we don't accidentally stack or wipe out child listeners
+                mainContent.onscroll = this.handleScroll;
             }
+            
+            handleScroll() {
+                const mainContent = document.getElementById('main-content');
+                const sections = document.querySelectorAll('.topic-section');
+                let currentActiveId = sections.length > 0 ? sections[0].id : null;
+                const containerTop = mainContent.getBoundingClientRect().top;
+                
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= containerTop + 150) { 
+                        currentActiveId = section.id;
+                    }
+                });
+                if (currentActiveId) this.updateNav(currentActiveId);
+            }
+
             updateNav(activeTopicId) {
                 const activeLi = document.querySelector(`li[data-target="${activeTopicId}"]`);
                 if (!activeLi || activeLi.classList.contains('active')) return;
@@ -805,11 +918,11 @@
                 activeChapterList.classList.add('open');
                 activeChapterTitle.classList.add('open');
                 
-                // Only auto-scroll the nav if on desktop so we don't mess up mobile scrolling
                 if(window.innerWidth > 768) {
                     activeLi.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
             }
+            
             createBlockElement(block) {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'content-block';
