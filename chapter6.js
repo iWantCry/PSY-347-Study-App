@@ -7,12 +7,14 @@ const t6_1 = new Topic("ch6-t1", "Adaptations & Exaptations");
 t6_1.addBlock(new ParagraphBlock("Learning systems can have both generality AND specificity. Evolutionary processes create both adaptations and exaptations to increase fitness."));
 
 // EXAM FOCUS (Red)
-t6_1.addBlock(new ParagraphBlock("<strong>Adaptations:</strong> Structural, physiological, or behavioral trait possessed by an organism which allows it to survive and reproduce in the environment in which it lives.", 1));
-t6_1.addBlock(new ListBlock([
-    "<strong>Structural</strong> - deals with shape of parts of organism (internal & external).",
-    "<strong>Physiological</strong> - deals with the chemical reactions that occur within an organism.",
-    "<strong>Behavioral</strong> - deals with the actual actions of organisms."
-], 1));
+t6_1.addBlock(new ParagraphBlock(
+    "<strong>Adaptations:</strong> Structural, physiological, or behavioral trait possessed by an organism which allows it to survive and reproduce in the environment in which it lives." +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'><strong>Structural</strong> - deals with shape of parts of organism (internal & external).</li>" +
+    "<li style='margin-bottom: 10px;'><strong>Physiological</strong> - deals with the chemical reactions that occur within an organism.</li>" +
+    "<li style='margin-bottom: 10px;'><strong>Behavioral</strong> - deals with the actual actions of organisms.</li>" +
+    "</ul>", 1
+));
 
 t6_1.addBlock(new DefinitionBlock("Exaptations", "A trait adapted for solving one problem that is now used to solve another problem (e.g., bird feathers originally evolved to keep birds warm, but now they help them fly). They still increase an animal's fitness."));
 t6_1.addBlock(new ParagraphBlock("For a true adaptive specialization in learning, mechanisms for solving one problem should be functionally incompatible with solving others. For example, a learning mechanism allowing habits to build up over time is incompatible with one that needs to respond in one trial."));
@@ -27,18 +29,23 @@ t6_2.addBlock(new ParagraphBlock("In Operant Conditioning (OC), the Law of Effec
 // Added Adaptation in OC Matrix Image
 t6_2.addBlock(new ImageBlock("images/Screenshot 2026-07-30 085221.png", "2x2 Matrix showing Reward, Punishment, Omission, and Avoidance/Escape"));
 
-t6_2.addBlock(new ListBlock([
-    "<strong>Reward:</strong> when behavior produces a good S*, it increases strength of future responses.",
-    "<strong>Punishment:</strong> when behavior produces a bad S*, it decreases strength of future responses.",
-    "<strong>Omission:</strong> when behavior prevents a good S*, it decreases strength of future responses.",
-    "<strong>Avoidance/Escape:</strong> when behavior prevents a bad S*, it increases the strength of future responses."
-]));
+t6_2.addBlock(new ParagraphBlock(
+    "Types of OC Adaptations:" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'><strong>Reward:</strong> when behavior produces a good S*, it increases strength of future responses.</li>" +
+    "<li style='margin-bottom: 10px;'><strong>Punishment:</strong> when behavior produces a bad S*, it decreases strength of future responses.</li>" +
+    "<li style='margin-bottom: 10px;'><strong>Omission:</strong> when behavior prevents a good S*, it decreases strength of future responses.</li>" +
+    "<li style='margin-bottom: 10px;'><strong>Avoidance/Escape:</strong> when behavior prevents a bad S*, it increases the strength of future responses.</li>" +
+    "</ul>"
+));
 
-t6_2.addBlock(new ParagraphBlock("In Classical Conditioning (CC), an animal learns that a signal predicts an S* is about to happen, allowing them to prepare. This helps dogs digest food, or helps animals avoid poisons."));
-t6_2.addBlock(new ListBlock([
-    "<span class='definition-term'>Blue Gouramis (Territoriality):</span> Males signaled with a light before an intruder appeared acted much more aggressively and would have won any fights compared to unpaired males.",
-    "<span class='definition-term'>Japanese Quail (Reproduction):</span> Males presented with a red light paired with a female stayed near the light and got to the female quicker than unpaired males."
-]));
+t6_2.addBlock(new ParagraphBlock(
+    "In Classical Conditioning (CC), an animal learns that a signal predicts an S* is about to happen, allowing them to prepare. This helps dogs digest food, or helps animals avoid poisons." +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'><span class='definition-term'>Blue Gouramis (Territoriality):</span> Males signaled with a light before an intruder appeared acted much more aggressively and would have won any fights compared to unpaired males.</li>" +
+    "<li style='margin-bottom: 10px;'><span class='definition-term'>Japanese Quail (Reproduction):</span> Males presented with a red light paired with a female stayed near the light and got to the female quicker than unpaired males.</li>" +
+    "</ul>"
+));
 ch6.addTopic(t6_2);
 
 // ==========================================
@@ -96,12 +103,14 @@ t6_5.addBlock(new ParagraphBlock("<strong>Behavioral Processes in Generalization
 t6_5.addBlock(new ImageBlock("images/Screenshot 2026-07-30 085609.png", "Behavioral Processes Table comparing Similar and Dissimilar stimuli with Same and Different outcomes"));
 
 // EXAM FOCUS (Red)
-t6_5.addBlock(new ParagraphBlock("<strong>Discrimination Learning and Learned Specificity:</strong>", 1));
-t6_5.addBlock(new ListBlock([
-    "<strong>Herbert Jenkins's study was based on the behavior of two groups of pigeons.</strong>",
-    "<strong>One group received standard training in which 1 kHz tone signaled that pecking key would result in food delivery.</strong> S (1 kHz tone) &rarr; R (key peck) &rarr; O (food).",
-    "<strong>Second group of pigeons received discrimination training in which one of two different (but similar) S was presented on each trial.</strong> S (1 kHz tone) &rarr; R (key peck) &rarr; O (food). S (950 Hz tone) &rarr; R (key peck) &rarr; O (no food)."
-], 1));
+t6_5.addBlock(new ParagraphBlock(
+    "<strong>Discrimination Learning and Learned Specificity:</strong>" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'><strong>Herbert Jenkins's study was based on the behavior of two groups of pigeons.</strong></li>" +
+    "<li style='margin-bottom: 10px;'><strong>One group received standard training in which 1 kHz tone signaled that pecking key would result in food delivery.</strong> S (1 kHz tone) &rarr; R (key peck) &rarr; O (food).</li>" +
+    "<li style='margin-bottom: 10px;'><strong>Second group of pigeons received discrimination training in which one of two different (but similar) S was presented on each trial.</strong> S (1 kHz tone) &rarr; R (key peck) &rarr; O (food). S (950 Hz tone) &rarr; R (key peck) &rarr; O (no food).</li>" +
+    "</ul>", 1
+));
 
 t6_5.addBlock(new ParagraphBlock("The more dimensions along which objects differ (e.g., duration, intensity, frequency), the easier it is to establish discriminative stimulus control."));
 
@@ -139,13 +148,14 @@ ch6.addTopic(t6_6);
 // GENERALIZATION IN PEOPLE
 // ==========================================
 const t6_7 = new Topic("ch6-t7", "Generalizations in People");
-t6_7.addBlock(new ParagraphBlock("Variability in training can improve generalization. This variability is especially helpful when a person has a high level of initial knowledge and skill. For those with little initial knowledge, it helps to start out with minimal variation."));
-
-t6_7.addBlock(new ListBlock([
-    "<span class='definition-term'>Stereotype:</span> A set of beliefs about attributes of the members of a group. Once formed, we are more likely to pay attention to examples that confirm the stereotype (confirmation bias).",
-    "<span class='definition-term'>Prototype:</span> Usually defined externally based on the central or common tendencies of exemplars of a category.",
-    "<span class='definition-term'>Discrimination (Social):</span> The unfair differential treatment of individuals on the basis of the group to which they are perceived to belong."
-]));
+t6_7.addBlock(new ParagraphBlock(
+    "Variability in training can improve generalization. This variability is especially helpful when a person has a high level of initial knowledge and skill. For those with little initial knowledge, it helps to start out with minimal variation." +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'><span class='definition-term'>Stereotype:</span> A set of beliefs about attributes of the members of a group. Once formed, we are more likely to pay attention to examples that confirm the stereotype (confirmation bias).</li>" +
+    "<li style='margin-bottom: 10px;'><span class='definition-term'>Prototype:</span> Usually defined externally based on the central or common tendencies of exemplars of a category.</li>" +
+    "<li style='margin-bottom: 10px;'><span class='definition-term'>Discrimination (Social):</span> The unfair differential treatment of individuals on the basis of the group to which they are perceived to belong.</li>" +
+    "</ul>"
+));
 ch6.addTopic(t6_7);
 
 psy347.addChapter(ch6);

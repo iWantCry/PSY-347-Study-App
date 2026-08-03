@@ -46,8 +46,7 @@
             background-color: var(--primary);
             border-right: 1px solid var(--border);
             color: var(--text);
-            overflow-y: auto;
-            padding: 20px 0;
+            padding-top: 20px; /* Fixed: Removed overflow-y and bottom padding */
             flex-shrink: 0;
             z-index: 1000;
             transition: left 0.3s ease;
@@ -69,7 +68,7 @@
             padding: 0 20px 20px 20px;
             gap: 10px;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 15px;
+            margin-bottom: 0; /* Removed margin so nav-container sits flush */
         }
 
         .exam-tab {
@@ -99,7 +98,9 @@
 
         #nav-container {
             flex-grow: 1;
-            overflow-y: auto;
+            overflow-y: auto; /* Fixed: This is now the ONLY scrolling element in the sidebar */
+            padding-top: 15px;
+            padding-bottom: 40px; /* Added breathing room at the bottom of the list */
         }
 
         .nav-chapter { margin-bottom: 5px; }
@@ -489,7 +490,9 @@
             #sidebar {
                 position: fixed;
                 left: -320px; 
-                height: 100vh;
+                top: 0;        /* Fixed: Prevents clipping under the browser bar */
+                bottom: 0;     /* Fixed: Prevents clipping under the browser bar */
+                height: 100%;  /* Fixed: Replaced 100vh to respect mobile safe areas */
                 box-shadow: 4px 0 15px rgba(0,0,0,0.5);
             }
             #sidebar.open { left: 0; }
@@ -583,6 +586,7 @@
     <script src="chapter5.js"></script>
     <script src="chapter6.js"></script> 
     <script src="chapter7.js"></script> 
+    <script src="chapter8.js"></script> 
 
     <script src="quiz_data.js"></script> 
 
@@ -624,7 +628,7 @@
 
 
         // --- QUIZ ENGINE LOGIC ---
-        const sessionAskedQuestions = { ch1: new Set(), ch2: new Set(), ch3: new Set(), ch4: new Set(), ch5: new Set(), ch6: new Set() };
+        const sessionAskedQuestions = { ch1: new Set(), ch2: new Set(), ch3: new Set(), ch4: new Set(), ch5: new Set(), ch6: new Set(), ch7: new Set() };
         
         const QuizEngine = {
             currentChapter: null,
@@ -844,7 +848,7 @@
                 filteredChapters.forEach(chapter => {
                     const headerContainer = document.createElement('div');
                     headerContainer.className = 'chapter-header-container';
-                    headerContainer.id = chapter.id; // Added ID for scrolling
+                    headerContainer.id = chapter.id; 
                     
                     const header = document.createElement('h2');
                     header.className = 'chapter-header';
@@ -880,7 +884,6 @@
 
             setupScrollTracking() {
                 const mainContent = document.getElementById('main-content');
-                // Use onscroll directly so we don't accidentally stack or wipe out child listeners
                 mainContent.onscroll = this.handleScroll;
             }
             

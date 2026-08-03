@@ -20,25 +20,29 @@ ch7.addTopic(t7_1);
 const t7_2 = new Topic("ch7-t2", "Animal Categorization");
 
 // EXAM FOCUS (Red)
-t7_2.addBlock(new ParagraphBlock("<strong>Associative Learning in Bees: Bees can learn to discriminate amongst complex visual patterns:</strong>", 1));
-t7_2.addBlock(new ListBlock([
-    "<strong>Human faces</strong>",
-    "<strong>Complementary shapes and patterns</strong>"
-], 1));
+t7_2.addBlock(new ParagraphBlock(
+    "<strong>Associative Learning in Bees: Bees can learn to discriminate amongst complex visual patterns:</strong>" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'><strong>Human faces</strong></li>" +
+    "<li style='margin-bottom: 10px;'><strong>Complementary shapes and patterns</strong></li>" +
+    "</ul>", 1
+));
 
 // Added Bee Image
 t7_2.addBlock(new ImageBlock("images/Screenshot 2026-07-30 091014.png", "Associative learning in bees with human faces"));
 
 // EXAM FOCUS (Red)
-t7_2.addBlock(new ParagraphBlock("<strong>Categorization: Herrnstein, Wasserman, and colleagues - train pigeons with exemplars. Then query about new stimuli (transfer test)</strong>", 1));
-t7_2.addBlock(new ListBlock([
-    "Trees vs. non-trees",
-    "Water vs. non-water",
-    "Margaret vs. non-Margaret",
-    "Fish vs. non-fish",
-    "Animals vs. non-animals",
-    "Monet vs. Picasso"
-]));
+t7_2.addBlock(new ParagraphBlock(
+    "<strong>Categorization: Herrnstein, Wasserman, and colleagues - train pigeons with exemplars. Then query about new stimuli (transfer test)</strong>" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'>Trees vs. non-trees</li>" +
+    "<li style='margin-bottom: 10px;'>Water vs. non-water</li>" +
+    "<li style='margin-bottom: 10px;'>Margaret vs. non-Margaret</li>" +
+    "<li style='margin-bottom: 10px;'>Fish vs. non-fish</li>" +
+    "<li style='margin-bottom: 10px;'>Animals vs. non-animals</li>" +
+    "<li style='margin-bottom: 10px;'>Monet vs. Picasso</li>" +
+    "</ul>", 1
+));
 
 // UPDATED Pigeon Image
 t7_2.addBlock(new ImageBlock("images/Screenshot 2026-07-30 093954.png", "Pigeon categorization in a skinner box"));
@@ -46,12 +50,14 @@ t7_2.addBlock(new ImageBlock("images/Screenshot 2026-07-30 093954.png", "Pigeon 
 t7_2.addBlock(new ParagraphBlock("A pigeon's capacity = 800+ pictures!!!!"));
 
 // EXAM FOCUS (Red)
-t7_2.addBlock(new ParagraphBlock("<strong>How?</strong>", 1));
-t7_2.addBlock(new ListBlock([
-    "<strong>1. Feature theory</strong>",
-    "<strong>2. Prototype theory</strong>",
-    "<strong>3. Exemplar theory</strong>"
-], 1));
+t7_2.addBlock(new ParagraphBlock(
+    "<strong>How?</strong>" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'><strong>1. Feature theory</strong></li>" +
+    "<li style='margin-bottom: 10px;'><strong>2. Prototype theory</strong></li>" +
+    "<li style='margin-bottom: 10px;'><strong>3. Exemplar theory</strong></li>" +
+    "</ul>", 1
+));
 ch7.addTopic(t7_2);
 
 // ==========================================
@@ -61,18 +67,23 @@ const t7_3 = new Topic("ch7-t3", "Feature Theory");
 t7_3.addBlock(new ParagraphBlock("According to Feature Theory, all pictures contain features, and animals must learn which are rewarded. For example, discriminating 'Cats vs. non-cats' by identifying whiskers, ears, paws, and tails."));
 
 // EXAM FOCUS (Red)
-t7_3.addBlock(new ListBlock([
-    "<strong>Associations are made between the compound stimulus and the Reward (Rew).</strong>",
-    "<strong>Over time, the strength of some features increases, while the strength of others decreases.</strong>"
-], 1));
+t7_3.addBlock(new ParagraphBlock(
+    "<strong>Mechanisms of Feature Theory:</strong>" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'><strong>Associations are made between the compound stimulus and the Reward (Rew).</strong></li>" +
+    "<li style='margin-bottom: 10px;'><strong>Over time, the strength of some features increases, while the strength of others decreases.</strong></li>" +
+    "</ul>", 1
+));
 
-t7_3.addBlock(new ParagraphBlock("Example of analyzing 4 features to categorize a face:"));
-t7_3.addBlock(new ListBlock([
-    "Forehead size",
-    "Eye space",
-    "Nose length",
-    "Chin size"
-]));
+t7_3.addBlock(new ParagraphBlock(
+    "Example of analyzing 4 features to categorize a face:" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'>Forehead size</li>" +
+    "<li style='margin-bottom: 10px;'>Eye space</li>" +
+    "<li style='margin-bottom: 10px;'>Nose length</li>" +
+    "<li style='margin-bottom: 10px;'>Chin size</li>" +
+    "</ul>"
+));
 
 // UPDATED Feature Theory Faces Image
 t7_3.addBlock(new ImageBlock("images/Screenshot 2026-07-30 094003.png", "Three line-drawn faces showing variations in forehead, eyes, nose, and chin features"));
@@ -95,12 +106,14 @@ t7_4.addBlock(new DefinitionBlock(
     1
 ));
 
-t7_4.addBlock(new ParagraphBlock("Key characteristics of the Prototype view:"));
-t7_4.addBlock(new ListBlock([
-    "A prototype is usually defined externally based on the central or common tendencies of exemplars of a category.",
-    "The representation of the category is highly <strong>abstract</strong>.",
-    "Representing a category is <strong>not defining it</strong> (it relies on fuzzy boundaries rather than rigid checklists)."
-]));
+t7_4.addBlock(new ParagraphBlock(
+    "Key characteristics of the Prototype view:" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'>A prototype is usually defined externally based on the central or common tendencies of exemplars of a category.</li>" +
+    "<li style='margin-bottom: 10px;'>The representation of the category is highly <strong>abstract</strong>.</li>" +
+    "<li style='margin-bottom: 10px;'>Representing a category is <strong>not defining it</strong> (it relies on fuzzy boundaries rather than rigid checklists).</li>" +
+    "</ul>"
+));
 
 // EXAM FOCUS (Red)
 t7_4.addBlock(new ParagraphBlock("<strong>Results of Rosch’s (1975a) experiment, in which participants judged objects on a scale of 1 (good example of a category) to 7 (poor example): (a) ratings for birds; (b) ratings for furniture.</strong>", 1));
@@ -108,26 +121,32 @@ t7_4.addBlock(new ParagraphBlock("<strong>Results of Rosch’s (1975a) experimen
 // UPDATED Rosch Graph Image
 t7_4.addBlock(new ImageBlock("images/Screenshot 2026-07-30 094039.png", "Rosch 1975a Experiment Rating Scale for birds and furniture"));
 
-t7_4.addBlock(new ListBlock([
-    "<strong>Category = Birds:</strong> Sparrow (1.18) is highly typical, while a Bat (6.15) is a poor example.",
-    "<strong>Category = Furniture:</strong> Chair/sofa (1.04) are central prototypes, while a Telephone (6.68) is a poor example."
-]));
+t7_4.addBlock(new ParagraphBlock(
+    "Rosch's typicality findings breakdown:" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'><strong>Category = Birds:</strong> Sparrow (1.18) is highly typical, while a Bat (6.15) is a poor example.</li>" +
+    "<li style='margin-bottom: 10px;'><strong>Category = Furniture:</strong> Chair/sofa (1.04) are central prototypes, while a Telephone (6.68) is a poor example.</li>" +
+    "</ul>"
+));
 
 t7_4.addBlock(new DefinitionBlock("Prototypes vs. Stereotypes", "The concept of a stereotype is similar to that of a prototype but with subtle differences. A stereotype is a psychological concept that may or may not closely correspond to an accurate prototype for the category of people to which it refers."));
 
-t7_4.addBlock(new ParagraphBlock("How do people learn and use stereotypes?"));
-t7_4.addBlock(new ListBlock([
-    "In acquiring stereotypes, people filter what they attend to through a personal lens of their own needs and self-interest.",
-    "<strong>Confirmation Bias:</strong> Once we have formed a negative stereotype about members of another group, we are more likely to pay attention to examples that confirm this stereotype.",
-    "Using stereotypes appropriately requires finding a balance between specificity (does the stereotype apply only to members of a particular group?) and generality (does it apply to all members of that group?)."
-]));
+t7_4.addBlock(new ParagraphBlock(
+    "How do people learn and use stereotypes?" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'>In acquiring stereotypes, people filter what they attend to through a personal lens of their own needs and self-interest.</li>" +
+    "<li style='margin-bottom: 10px;'><strong>Confirmation Bias:</strong> Once we have formed a negative stereotype about members of another group, we are more likely to pay attention to examples that confirm this stereotype.</li>" +
+    "<li style='margin-bottom: 10px;'>Using stereotypes appropriately requires finding a balance between specificity (does the stereotype apply only to members of a particular group?) and generality (does it apply to all members of that group?).</li>" +
+    "</ul>"
+));
 
-t7_4.addBlock(new ParagraphBlock("Trouble with stereotypes arises when:"));
-t7_4.addBlock(new ListBlock([
-    "People use generalizations not based on true or appropriate statistics.",
-    "People use statistically valid generalizations to justify discrimination against individuals, denying the possibility that the generalization may not pertain to everyone in the group."
-]));
-
+t7_4.addBlock(new ParagraphBlock(
+    "Trouble with stereotypes arises when:" +
+    "<ul class='content-list' style='margin-left: 40px; margin-top: 15px; margin-bottom: 5px;'>" +
+    "<li style='margin-bottom: 10px;'>People use generalizations not based on true or appropriate statistics.</li>" +
+    "<li style='margin-bottom: 10px;'>People use statistically valid generalizations to justify discrimination against individuals, denying the possibility that the generalization may not pertain to everyone in the group.</li>" +
+    "</ul>"
+));
 ch7.addTopic(t7_4);
 
 // ==========================================
